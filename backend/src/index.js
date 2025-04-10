@@ -1,16 +1,17 @@
 import express from "express";
-import { connectDB } from "./lib/db.js";
-import authRoutes from "./routes/auth.route.js";
-import messageRoutes from "./routes/message.route.js";
 import dotenv from "dotenv";
-import path from "path";
 import cookieParser from "cookie-parser";
 import cors from "cors";
+import path from "path";
+import { connectDB } from "./lib/db.js";
+
+import authRoutes from "./routes/auth.route.js";
+import messageRoutes from "./routes/message.route.js";
 import { app, server } from "./lib/socket.js";
 
 dotenv.config();
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT;
 const __dirname = path.resolve();
 
 app.use(express.json({ limit: "5mb" }));
@@ -23,10 +24,6 @@ app.use(
     credentials: true, // means cookies to be send with the header
   })
 );
-
-app.get("/", (req, res) => {
-  res.send("API is running");
-});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/message", messageRoutes);
