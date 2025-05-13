@@ -1,15 +1,14 @@
 import express from "express";
-import { protectRoute } from "../middleware/auth.middleware.js";
-import {
-  getMessages,
-  getUsersForSidebar,
-  sendMessage,
-} from "../controllers/message.controller.js";
+import Message from "../models/message.model.js";
+// import { protectRoute } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/users", protectRoute, getUsersForSidebar);
-router.get("/:id", protectRoute, getMessages);
-router.post("/send/:id", protectRoute, sendMessage);
+router.get("/", async (req, res) => {
+  const messages = await Message.find()
+    .populate("senderId", "username")
+    .sort({ createdAt: 1 });
+  res.json(messages);
+});
 
 export default router;
