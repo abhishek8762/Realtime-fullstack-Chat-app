@@ -11,7 +11,7 @@ import { Loader } from "lucide-react"; // adds loading to page when user not log
 import { Toaster } from "react-hot-toast";
 import { useThemeStore } from "./store/useThemeStore";
 function App() {
-  const { authUser, checkAuth, isCheckingAuth, onlineUsers } = useAuthStore();
+  const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
   const { theme } = useThemeStore();
 
   console.log(authUser);
@@ -19,8 +19,6 @@ function App() {
   useEffect(() => {
     checkAuth();
   }, [checkAuth]);
-
-  console.log({ onlineUsers });
 
   if (isCheckingAuth && !authUser)
     return (

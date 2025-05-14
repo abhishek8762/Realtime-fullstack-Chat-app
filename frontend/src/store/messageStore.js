@@ -6,22 +6,12 @@ export const useMessageStore = create((set) => ({
   messages: [],
   loading: true,
 
-  fetchMessages: async () => {
-    try {
-      const res = await axiosInstance.get("/messages");
-      set({ messages: res.data, loading: false });
-    } catch (err) {
-      console.error("Failed to load messages", err);
-    }
-  },
-
   connectSocket: (userId) => {
-    if (!socket.connected) {
-      socket.connect();
-      socket.emit("join", userId);
-    }
-    socket.off("newMessage");
-    // socket.off("newMessage") removes existing listeners so socket.on("newMessage", ...) is only attached once.
+    if (!socket.connected) return;
+
+    socket.emit("join", userId);
+
+    socket.off("newMessage"); // socket.off("newMessage") removes existing listeners so socket.on("newMessage", ...) is only attached once.
     // This is important to prevent multiple listeners from being attached every time the component mounts.
     // This can lead to performance issues and unexpected behavior.
     // By removing the existing listener before adding a new one, we ensure that only one listener is active at a time.
@@ -32,11 +22,18 @@ export const useMessageStore = create((set) => ({
     // This can cause the event handler to be called multiple times for a single event,
     // which can lead to performance issues and unexpected behavior.
 
-    socket.on("newMessage", (message) => {
-      set((state) => ({
-        messages: [...state.messages, message],
-      }));
+    socket.on("newMessage", (msg) => {
+      set((state) => ({ messages: [...state.messages, msg] }));
     });
+  },
+
+  fetchMessages: async () => {
+    try {
+      const res = await axiosInstance.get("/messages");
+      set({ messages: res.data, loading: false });
+    } catch (err) {
+      console.error("Failed to load messages", err);
+    }
   },
 
   sendMessage: (messageData) => {

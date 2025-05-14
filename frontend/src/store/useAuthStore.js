@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
+import { socket } from "../lib/socket";
 
 //handling global state, which can be used by calling for eg calling useAuthStore and then destructuring state from it
 export const useAuthStore = create((set, get) => ({
@@ -10,6 +11,19 @@ export const useAuthStore = create((set, get) => ({
   isUpdatingProfile: false,
   isCheckingAuth: true,
   onlineUsers: [],
+
+  connectSocket: () => {
+    if (!socket.connected) {
+      socket.connect();
+      socket.on("connect", () => console.log("Connected:", socket.id));
+    }
+  },
+  disconnectSocket: () => {
+    if (socket.connected) {
+      socket.disconnect();
+      console.log("Disconnected");
+    }
+  },
 
   checkAuth: async () => {
     try {
@@ -46,6 +60,7 @@ export const useAuthStore = create((set, get) => ({
       toast.success("Logged in successfully");
       // with help of get, we can call functions in different function which zustand allows us
       get().connectSocket();
+      console.log("Login response", res.data);
     } catch (error) {
       toast.error(error.response.data.message);
     } finally {
@@ -61,6 +76,19 @@ export const useAuthStore = create((set, get) => ({
       get().disconnectSocket();
     } catch (error) {
       toast.error(error.response.data.message);
+    }
+  },
+
+  updateProfile: async (data) => {
+    set({ isUpdatingProfile: true });
+    try {
+      const res = await axiosInstance.put("/auth/update-profile", data);
+      set({ authUser: res.data });
+      toast.success("Profile updated successfully");
+    } catch (error) {
+      toast.error(error?.response?.data?.message);
+    } finally {
+      set({ isUpdatingProfile: false });
     }
   },
 }));

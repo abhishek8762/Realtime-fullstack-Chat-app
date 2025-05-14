@@ -1,10 +1,10 @@
 import express from "express";
 import Message from "../models/message.model.js";
-// import { protectRoute } from "../middleware/auth.middleware.js";
+import { protectRoute } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
 
-router.get("/", async (req, res) => {
+router.get("/", protectRoute, async (req, res) => {
   const messages = await Message.find()
     .populate("senderId", "username")
     .sort({ createdAt: 1 });
