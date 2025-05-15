@@ -16,8 +16,6 @@ const ChatPage = () => {
 
   return (
     <div className="flex flex-col h-full">
-      <div className="bg-gray-100 p-4 text-xl font-semibold">Unity Chat</div>
-
       {/* Message Thread grows to fill available space */}
       <div className="flex-1 overflow-y-auto">
         <MessageThread />

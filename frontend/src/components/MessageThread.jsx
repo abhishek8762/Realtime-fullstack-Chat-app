@@ -3,6 +3,7 @@ import { useEffect, useRef } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import clsx from "clsx";
 import moment from "moment";
+import { FaReply } from "react-icons/fa6";
 
 export const MessageThread = () => {
   const { authUser } = useAuthStore();
@@ -11,7 +12,7 @@ export const MessageThread = () => {
 
   useEffect(() => {
     fetchMessages();
-  }, []);
+  }, [fetchMessages]);
 
   // Utility to convert name to Title Case
   const toTitleCase = (str) =>
@@ -64,10 +65,10 @@ export const MessageThread = () => {
                 )}
               >
                 <button
-                  className="absolute -top-3 right-0 text-xs hidden group-hover:block"
+                  className="absolute -top-4 right-0 text-xs hidden group-hover:block"
                   onClick={() => useMessageStore.getState().setReplyingTo(msg)}
                 >
-                  🔁
+                  <FaReply className="w-5 h-5 text-gray-500" />
                 </button>
 
                 {msg.replyTo && (

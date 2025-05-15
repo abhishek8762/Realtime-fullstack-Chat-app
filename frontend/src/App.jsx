@@ -7,6 +7,7 @@ import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
 import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
+import Leaderboard from "./pages/Leaderboard";
 import { Loader } from "lucide-react"; // adds loading to page when user not logged and loading on refresh
 import { Toaster } from "react-hot-toast";
 import { useThemeStore } from "./store/useThemeStore";
@@ -48,6 +49,10 @@ function App() {
         <Route
           path="/profile"
           element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
+        />
+        <Route
+          path="/leaderboard"
+          element={authUser ? <Leaderboard /> : <Navigate to="/login" />}
         />
       </Routes>
       <Toaster />

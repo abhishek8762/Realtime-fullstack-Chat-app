@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/useAuthStore";
 import { LogOut, MessageSquare, Settings, User } from "lucide-react";
+import { MdLeaderboard } from "react-icons/md";
 
 const Navbar = () => {
   const { logout, authUser } = useAuthStore();
@@ -25,6 +26,15 @@ const Navbar = () => {
           </div>
 
           <div className="flex items-center gap-2">
+            <Link
+              to="/leaderboard"
+              className="btn btn-sm gap-2 transition-colors"
+            >
+              <MdLeaderboard className="w-4 h-4" />
+              <span className="hidden sm:inline">Leaderboard</span>
+              {/* <span className="badge badge-sm badge-primary">New</span> */}
+            </Link>
+
             <Link
               to={"/settings"}
               className={`

@@ -2,10 +2,11 @@ import { create } from "zustand";
 import { socket } from "../lib/socket";
 import { axiosInstance } from "../lib/axios";
 
-export const useMessageStore = create((set, get) => ({
+export const useMessageStore = create((set) => ({
   messages: [],
   loading: true,
   replyingTo: null,
+  leaderboard: [],
 
   setReplyingTo: (message) => set({ replyingTo: message }),
   clearReplyingTo: () => set({ replyingTo: null }),
@@ -48,5 +49,14 @@ export const useMessageStore = create((set, get) => ({
     };
     socket.emit("sendMessage", payload);
     useMessageStore.getState().setReplyingTo(null); // Clear replyingTo after sending the message
+  },
+
+  fetchLeaderboard: async () => {
+    try {
+      const res = await axiosInstance.get("/messages/leaderboard");
+      set({ leaderboard: res.data });
+    } catch (err) {
+      console.error("Failed to fetch leaderboard", err);
+    }
   },
 }));

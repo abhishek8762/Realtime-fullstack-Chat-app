@@ -3,6 +3,7 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useMessageStore } from "../store/messageStore";
 import { Send, Smile } from "lucide-react";
 import EmojiPicker from "emoji-picker-react";
+import { TiDelete } from "react-icons/ti";
 
 export const MessageInput = () => {
   const [text, setText] = useState("");
@@ -38,7 +39,7 @@ export const MessageInput = () => {
             onClick={clearReplyingTo}
             className="ml-2 text-red-500 text-xs"
           >
-            ✕
+            <TiDelete className="w-7 h-9" />
           </button>
         </div>
       )}
@@ -51,7 +52,7 @@ export const MessageInput = () => {
         />
         <button
           onClick={() => setShowEmojiPicker(!showEmojiPicker)}
-          className="bg-gray-200 p-2 rounded"
+          className="bg-gray-200 p-2 rounded text-black"
         >
           <Smile className="w-4 h-4" />
         </button>
