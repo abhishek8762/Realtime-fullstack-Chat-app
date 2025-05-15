@@ -3,25 +3,37 @@ import { useAuthStore } from "../store/useAuthStore";
 import { useMessageStore } from "../store/messageStore";
 import { MessageThread } from "./MessageThread";
 import { MessageInput } from "./MessageInput";
+import MessageSkeleton from "./skeletons/MessageSkeleton";
 
 const ChatPage = () => {
   const { authUser } = useAuthStore();
-  const { connectSocket } = useMessageStore();
+  const { connectSocket, isMessagesLoading, fetchMessages } = useMessageStore();
 
   useEffect(() => {
-    if (authUser?._id) {
-      connectSocket(authUser._id);
-    }
-  }, [authUser]);
+    if (!authUser?._id) return;
 
+    connectSocket(authUser._id);
+    console.log(authUser._id);
+    fetchMessages();
+  }, [authUser, fetchMessages, connectSocket]);
+
+  if (isMessagesLoading) {
+    return (
+      <div className="flex flex-col h-full">
+        <div className="flex-1 overflow-y-auto">
+          <MessageSkeleton />
+        </div>
+
+        <MessageInput />
+      </div>
+    );
+  }
   return (
     <div className="flex flex-col h-full">
-      {/* Message Thread grows to fill available space */}
       <div className="flex-1 overflow-y-auto">
         <MessageThread />
       </div>
 
-      {/* Message input stays at bottom */}
       <MessageInput />
     </div>
   );

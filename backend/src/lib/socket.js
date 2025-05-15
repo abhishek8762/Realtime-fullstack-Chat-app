@@ -1,8 +1,32 @@
 import Message from "../models/message.model.js";
 
+const onlineUsersMap = new Map();
+
 export const handleSocket = (io) => {
   io.on("connection", (socket) => {
     console.log("User connected:", socket.id);
+
+    socket.on("join", (userId) => {
+      console.log(`User ${userId} joined`);
+
+      onlineUsersMap.set(userId, socket.id);
+
+      io.emit("onlineUsers", Array.from(onlineUsersMap.keys()));
+    });
+
+    socket.on("disconnect", () => {
+      // Find and remove the user from onlineUsersMap
+      for (const [userId, sockId] of onlineUsersMap.entries()) {
+        if (sockId === socket.id) {
+          onlineUsersMap.delete(userId);
+          break;
+        }
+      }
+
+      io.emit("onlineUsers", Array.from(onlineUsersMap.keys()));
+
+      console.log("User disconnected:", socket.id);
+    });
 
     socket.on("sendMessage", async ({ senderId, text, replyTo }) => {
       try {

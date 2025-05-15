@@ -7,14 +7,9 @@ import { FaReply } from "react-icons/fa6";
 
 export const MessageThread = () => {
   const { authUser } = useAuthStore();
-  const { messages, fetchMessages } = useMessageStore();
+  const { messages, typingUser } = useMessageStore();
   const lastDate = useRef("");
 
-  useEffect(() => {
-    fetchMessages();
-  }, [fetchMessages]);
-
-  // Utility to convert name to Title Case
   const toTitleCase = (str) =>
     str.replace(
       /\w\S*/g,
@@ -111,6 +106,12 @@ export const MessageThread = () => {
           </div>
         );
       })}
+
+      {typingUser && (
+        <div className="text-sm italic text-gray-500 mt-2">
+          {typingUser} is typing...
+        </div>
+      )}
     </div>
   );
 };

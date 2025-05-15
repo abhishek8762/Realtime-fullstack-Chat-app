@@ -11,19 +11,6 @@ export const useAuthStore = create((set, get) => ({
   isCheckingAuth: true,
   onlineUsers: [],
 
-  connectSocket: () => {
-    if (!socket.connected) {
-      socket.connect();
-      socket.on("connect", () => console.log("Connected:", socket.id));
-    }
-  },
-  disconnectSocket: () => {
-    if (socket.connected) {
-      socket.disconnect();
-      console.log("Disconnected");
-    }
-  },
-
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
@@ -75,6 +62,28 @@ export const useAuthStore = create((set, get) => ({
       get().disconnectSocket();
     } catch (error) {
       toast.error(error.response.data.message);
+    }
+  },
+
+  connectSocket: () => {
+    const { authUser } = get();
+
+    if (!socket.connected) {
+      socket.connect();
+
+      socket.emit("join", authUser._id); //once connected join with current user
+
+      socket.on("onlineUsers", (userIds) => {
+        set({ onlineUsers: userIds });
+        console.log("Online users updated", userIds);
+      });
+    }
+  },
+
+  disconnectSocket: () => {
+    if (socket.connected) {
+      socket.disconnect();
+      console.log("Disconnected");
     }
   },
 }));
