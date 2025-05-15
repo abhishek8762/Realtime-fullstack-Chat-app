@@ -8,12 +8,17 @@ export const MessageInput = () => {
   const [text, setText] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const { authUser } = useAuthStore();
-  const { sendMessage } = useMessageStore();
+  const { sendMessage, replyingTo, clearReplyingTo } = useMessageStore();
 
   const handleSend = () => {
     if (!text.trim()) return;
-    sendMessage({ senderId: authUser._id, text });
+    sendMessage({
+      senderId: authUser._id,
+      text,
+      replyTo: replyingTo?._id || null,
+    });
     setText("");
+    clearReplyingTo();
   };
 
   const handleEmojiClick = (emojiData) => {
@@ -23,6 +28,20 @@ export const MessageInput = () => {
 
   return (
     <div className="flex flex-col border-t p-2 gap-2 relative">
+      {replyingTo && (
+        <div className="bg-gray-100 p-2 rounded border text-sm flex justify-between items-center">
+          <div className="truncate max-w-[80%]">
+            Replying to <strong>{replyingTo.senderId.fullName}</strong>: "
+            {replyingTo.text}"
+          </div>
+          <button
+            onClick={clearReplyingTo}
+            className="ml-2 text-red-500 text-xs"
+          >
+            ✕
+          </button>
+        </div>
+      )}
       <div className="flex items-center gap-2">
         <input
           value={text}

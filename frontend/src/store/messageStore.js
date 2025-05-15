@@ -2,9 +2,13 @@ import { create } from "zustand";
 import { socket } from "../lib/socket";
 import { axiosInstance } from "../lib/axios";
 
-export const useMessageStore = create((set) => ({
+export const useMessageStore = create((set, get) => ({
   messages: [],
   loading: true,
+  replyingTo: null,
+
+  setReplyingTo: (message) => set({ replyingTo: message }),
+  clearReplyingTo: () => set({ replyingTo: null }),
 
   connectSocket: (userId) => {
     if (!socket.connected) return;
@@ -37,6 +41,12 @@ export const useMessageStore = create((set) => ({
   },
 
   sendMessage: (messageData) => {
-    socket.emit("sendMessage", messageData);
+    const replyingTo = useMessageStore.getState().replyingTo;
+    const payload = {
+      ...messageData,
+      replyTo: replyingTo ? replyingTo._id : null,
+    };
+    socket.emit("sendMessage", payload);
+    useMessageStore.getState().setReplyingTo(null); // Clear replyingTo after sending the message
   },
 }));

@@ -14,6 +14,10 @@ const messageSchema = new mongoose.Schema(
     emoji: {
       type: String,
     },
+    replyTo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Message",
+    },
   },
   { timestamps: true }
 );

@@ -57,12 +57,30 @@ export const MessageThread = () => {
 
               <div
                 className={clsx(
-                  "p-2 rounded-lg max-w-xs relative",
+                  "group p-2 rounded-lg max-w-xs relative",
                   isAuthUser
                     ? "bg-blue-500 text-white"
                     : "bg-gray-300 text-black"
                 )}
               >
+                <button
+                  className="absolute -top-3 right-0 text-xs hidden group-hover:block"
+                  onClick={() => useMessageStore.getState().setReplyingTo(msg)}
+                >
+                  🔁
+                </button>
+
+                {msg.replyTo && (
+                  <div className="text-xs italic opacity-80 mb-1 border-l-2 pl-2 border-gray-400">
+                    <div className="font-semibold text-[14px] ">
+                      {toTitleCase(msg.senderId.fullName)}
+                    </div>
+                    <div className="break-words text-[12px]">
+                      {msg.replyTo.text}
+                    </div>
+                  </div>
+                )}
+
                 <div
                   className={clsx(
                     "flex justify-between items-center mb-1 text-xs font-semibold",
