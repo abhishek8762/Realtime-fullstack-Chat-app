@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get("/", protectRoute, async (req, res) => {
   const messages = await Message.find()
-    .populate("senderId", "username")
+    .populate("senderId", "fullName profilePic")
     .sort({ createdAt: 1 });
   res.json(messages);
 });

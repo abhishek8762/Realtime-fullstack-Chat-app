@@ -7,7 +7,10 @@ export const handleSocket = (io) => {
     socket.on("sendMessage", async ({ senderId, text }) => {
       const message = new Message({ senderId, text });
       await message.save();
-      const fullMessage = await message.populate("senderId", "username");
+      const fullMessage = await message.populate(
+        "senderId",
+        "fullName profilePic"
+      );
 
       io.emit("newMessage", fullMessage); // broadcast to all
     });
