@@ -14,8 +14,8 @@ export const useAuthStore = create((set, get) => ({
   checkAuth: async () => {
     try {
       const res = await axiosInstance.get("/auth/check");
-      get().connectSocket();
       set({ authUser: res.data });
+      get().connectSocket();
     } catch (error) {
       console.log("Error in checkAuth state", error);
       set({ authUser: null });
@@ -68,16 +68,19 @@ export const useAuthStore = create((set, get) => ({
   connectSocket: () => {
     const { authUser } = get();
 
+    if (!authUser?._id) return;
+
     if (!socket.connected) {
       socket.connect();
-
-      socket.emit("join", authUser._id); //once connected join with current user
-
-      socket.on("onlineUsers", (userIds) => {
-        set({ onlineUsers: userIds });
-        console.log("Online users updated", userIds);
-      });
     }
+
+    socket.emit("join", authUser._id); //ALWAYS emit join regardless of connection status when auth user is present
+
+    socket.off("onlineUsers");
+    socket.on("onlineUsers", (userIds) => {
+      set({ onlineUsers: userIds });
+      console.log("Online users updated", userIds);
+    });
   },
 
   disconnectSocket: () => {

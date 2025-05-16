@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useMessageStore } from "../store/messageStore";
+import { toUpperCase } from "../lib/utils";
 
 const Leaderboard = () => {
   const { leaderboard, fetchLeaderboard } = useMessageStore();
@@ -22,7 +23,9 @@ const Leaderboard = () => {
             className="w-10 h-10 rounded-full mx-3"
           />
           <div className="flex-1">
-            <div className="font-medium text-black">{entry.user.fullName}</div>
+            <div className="font-medium text-black">
+              {toUpperCase(entry.user.fullName)}
+            </div>
           </div>
           <div className="text-gray-600 text-sm">{entry.count} messages</div>
         </div>

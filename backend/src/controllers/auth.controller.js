@@ -20,10 +20,22 @@ export const signup = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
+    const PROFILE_PICS = [
+      "/avatar1.png",
+      "/avatar2.png",
+      "/avatar3.png",
+      "/avatar4.png",
+      "/avatar5.png",
+    ];
+
+    const profilePic =
+      PROFILE_PICS[Math.floor(Math.random() * PROFILE_PICS.length)];
+
     const newUser = new User({
       fullName,
       email,
       password: hashedPassword,
+      profilePic,
     });
     if (newUser) {
       generateToken(newUser._id, res);

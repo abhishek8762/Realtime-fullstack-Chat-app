@@ -4,16 +4,12 @@ import { useMessageStore } from "../store/messageStore";
 import { Send, Smile } from "lucide-react";
 import EmojiPicker from "emoji-picker-react";
 import { TiDelete } from "react-icons/ti";
-import { useEffect, useRef } from "react";
 
 export const MessageInput = () => {
   const [text, setText] = useState("");
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const { authUser } = useAuthStore();
-  const { sendMessage, replyingTo, clearReplyingTo, sendTypingStatus } =
-    useMessageStore();
-
-  const lastTypingTime = useRef(0);
+  const { sendMessage, replyingTo, clearReplyingTo } = useMessageStore();
 
   const handleSend = () => {
     if (!text.trim()) return;
@@ -24,15 +20,6 @@ export const MessageInput = () => {
     });
     setText("");
     clearReplyingTo();
-  };
-
-  const handleTyping = (e) => {
-    setText(e.target.value);
-    const now = Date.now();
-    if (now - lastTypingTime.current > 1000) {
-      sendTypingStatus(authUser._id);
-      lastTypingTime.current = now;
-    }
   };
 
   const handleEmojiClick = (emojiData) => {
@@ -59,7 +46,7 @@ export const MessageInput = () => {
       <div className="flex items-center gap-2">
         <input
           value={text}
-          onChange={handleTyping}
+          onChange={(e) => setText(e.target.value)}
           placeholder="Type a message..."
           className="flex-1 p-2 rounded border"
         />

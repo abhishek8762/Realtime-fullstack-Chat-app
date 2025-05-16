@@ -5,3 +5,9 @@ export function formatMessageTime(date) {
     hour12: false,
   });
 }
+
+export const toUpperCase = (str) =>
+  str.replace(
+    /\w\S*/g,
+    (txt) => txt[0].toUpperCase() + txt.substr(1).toLowerCase()
+  );

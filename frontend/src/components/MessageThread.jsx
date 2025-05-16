@@ -1,20 +1,17 @@
 import { useMessageStore } from "../store/messageStore";
-import { useEffect, useRef } from "react";
+import { useRef } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import clsx from "clsx";
 import moment from "moment";
 import { FaReply } from "react-icons/fa6";
+import { toUpperCase } from "../lib/utils";
 
 export const MessageThread = () => {
-  const { authUser } = useAuthStore();
-  const { messages, typingUser } = useMessageStore();
+  const { authUser, onlineUsers } = useAuthStore();
+  const { messages } = useMessageStore();
   const lastDate = useRef("");
 
-  const toTitleCase = (str) =>
-    str.replace(
-      /\w\S*/g,
-      (txt) => txt[0].toUpperCase() + txt.substr(1).toLowerCase()
-    );
+  const isUserOnline = (userId) => onlineUsers.includes(userId);
 
   return (
     <div className="flex flex-col space-y-4 h-full overflow-y-auto p-4">
@@ -44,11 +41,16 @@ export const MessageThread = () => {
               })}
             >
               {!isAuthUser && (
-                <img
-                  src={msg.senderId.profilePic}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full mr-2 self-end"
-                />
+                <div className="relative w-8 h-8 mr-2 self-end">
+                  <img
+                    src={msg.senderId.profilePic}
+                    alt="Profile"
+                    className="w-8 h-8 rounded-full"
+                  />
+                  {isUserOnline(msg.senderId._id) && (
+                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full ring-1 ring-green-500 transition-all duration-200"></span>
+                  )}
+                </div>
               )}
 
               <div
@@ -69,7 +71,7 @@ export const MessageThread = () => {
                 {msg.replyTo && (
                   <div className="text-xs italic opacity-80 mb-1 border-l-2 pl-2 border-gray-400">
                     <div className="font-semibold text-[14px] ">
-                      {toTitleCase(msg.senderId.fullName)}
+                      {toUpperCase(msg.senderId.fullName)}
                     </div>
                     <div className="break-words text-[12px]">
                       {msg.replyTo.text}
@@ -86,7 +88,7 @@ export const MessageThread = () => {
                     }
                   )}
                 >
-                  <span>{toTitleCase(msg.senderId.fullName)}</span>
+                  <span>{toUpperCase(msg.senderId.fullName)}</span>
                   <span className="text-[10px] opacity-80 ml-2">
                     {moment(msg.createdAt).format("h:mm A")}
                   </span>
@@ -96,22 +98,21 @@ export const MessageThread = () => {
               </div>
 
               {isAuthUser && (
-                <img
-                  src={msg.senderId.profilePic}
-                  alt="Profile"
-                  className="w-8 h-8 rounded-full ml-2 self-end"
-                />
+                <div className="relative w-8 h-8 ml-2 self-end">
+                  <img
+                    src={msg.senderId.profilePic}
+                    alt="Profile"
+                    className="w-8 h-8 rounded-full"
+                  />
+                  {isUserOnline(msg.senderId._id) && (
+                    <span className="absolute bottom-0 right-0 w-2.5 h-2.5 bg-green-500 border-2 border-white rounded-full ring-1 ring-green-500 transition-all duration-200"></span>
+                  )}
+                </div>
               )}
             </div>
           </div>
         );
       })}
-
-      {typingUser && (
-        <div className="text-sm italic text-gray-500 mt-2">
-          {typingUser} is typing...
-        </div>
-      )}
     </div>
   );
 };

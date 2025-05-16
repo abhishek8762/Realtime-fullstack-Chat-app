@@ -12,9 +12,9 @@ const ChatPage = () => {
   useEffect(() => {
     if (!authUser?._id) return;
 
-    connectSocket(authUser._id);
     console.log(authUser._id);
     fetchMessages();
+    connectSocket(authUser._id);
   }, [authUser, fetchMessages, connectSocket]);
 
   if (isMessagesLoading) {
