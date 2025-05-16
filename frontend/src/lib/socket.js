@@ -1,6 +1,11 @@
 import { io } from "socket.io-client";
 
-export const socket = io(import.meta.env.VITE_API_URL, {
+const change =
+  import.meta.NODE_ENV === "production"
+    ? import.meta.env.VITE_API_URL
+    : "http://localhost:5001";
+
+export const socket = io(change, {
   withCredentials: true,
-  autoConnect: false,
+  autoConnect: true,
 });

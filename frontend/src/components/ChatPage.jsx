@@ -13,6 +13,7 @@ const ChatPage = () => {
     if (!authUser?._id) return;
 
     console.log(authUser._id);
+
     fetchMessages();
     connectSocket(authUser._id);
   }, [authUser, fetchMessages, connectSocket]);

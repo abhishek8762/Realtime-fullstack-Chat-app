@@ -44,7 +44,9 @@ export const useMessageStore = create((set) => ({
   },
 
   connectSocket: (userId) => {
-    if (!socket.connected) return;
+    if (!socket.connected) {
+      socket.connect();
+    }
 
     socket.emit("join", userId);
 

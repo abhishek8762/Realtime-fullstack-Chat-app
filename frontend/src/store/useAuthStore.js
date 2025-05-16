@@ -2,6 +2,7 @@ import { create } from "zustand";
 import { axiosInstance } from "../lib/axios";
 import toast from "react-hot-toast";
 import { socket } from "../lib/socket";
+import { useMessageStore } from "./messageStore";
 
 //handling global state, which can be used by calling for eg calling useAuthStore and then destructuring state from it
 export const useAuthStore = create((set, get) => ({
@@ -16,6 +17,7 @@ export const useAuthStore = create((set, get) => ({
       const res = await axiosInstance.get("/auth/check");
       set({ authUser: res.data });
       get().connectSocket();
+      useMessageStore.getState().connectSocket(res.data._id);
     } catch (error) {
       console.log("Error in checkAuth state", error);
       set({ authUser: null });

@@ -50,9 +50,5 @@ export const handleSocket = (io) => {
         return;
       }
     });
-
-    socket.on("disconnect", () => {
-      console.log("User disconnected:", socket.id);
-    });
   });
 };
