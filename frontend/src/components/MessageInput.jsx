@@ -31,7 +31,7 @@ export const MessageInput = () => {
     <div className="flex flex-col border-t p-2 gap-2 relative">
       {replyingTo && (
         <div className="bg-gray-100 p-2 rounded border text-sm flex justify-between items-center">
-          <div className="truncate max-w-[80%]">
+          <div className="truncate max-w-[80%] text-gray-700">
             Replying to <strong>{replyingTo.senderId.fullName}</strong>: "
             {replyingTo.text}"
           </div>

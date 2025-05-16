@@ -1,5 +1,5 @@
 import { useMessageStore } from "../store/messageStore";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { useAuthStore } from "../store/useAuthStore";
 import clsx from "clsx";
 import moment from "moment";
@@ -10,8 +10,15 @@ export const MessageThread = () => {
   const { authUser, onlineUsers } = useAuthStore();
   const { messages } = useMessageStore();
   const lastDate = useRef("");
+  const bottomRef = useRef(null);
 
   const isUserOnline = (userId) => onlineUsers.includes(userId);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({
+      behavior: "smooth",
+    });
+  }, [messages]);
 
   return (
     <div className="flex flex-col space-y-4 h-full overflow-y-auto p-4">
@@ -113,6 +120,7 @@ export const MessageThread = () => {
           </div>
         );
       })}
+      <div ref={bottomRef}></div>
     </div>
   );
 };
