@@ -15,12 +15,17 @@ const app = express();
 const server = http.createServer(app);
 const __dirname = path.resolve();
 
+const allowedOrigins =
+  process.env.NODE_ENV === "production"
+    ? ["https://unity-chat.onrender.com"]
+    : ["http://localhost:5173"];
+
 const io = new Server(server, {
-  cors: { origin: "http://localhost:5173", credentials: true },
+  cors: { origin: allowedOrigins, credentials: true },
 });
 
 app.use(cookieParser());
-app.use(cors({ origin: "http://localhost:5173", credentials: true }));
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 app.use(express.json());
 app.use("/auth", authRoutes);
 app.use("/messages", messageRoutes);
@@ -37,9 +42,11 @@ if (process.env.NODE_ENV === "production") {
   });
 }
 
+const PORT = process.env.PORT || 5001;
+
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    server.listen(5001, () => console.log("Server running on 5001"));
+    server.listen(PORT, () => console.log(`Server running on ${PORT}`));
   })
   .catch(console.error);
