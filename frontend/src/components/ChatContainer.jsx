@@ -5,7 +5,7 @@ import { MessageThread } from "./MessageThread";
 import { MessageInput } from "./MessageInput";
 import MessageSkeleton from "./skeletons/MessageSkeleton";
 
-const ChatPage = () => {
+const ChatContainer = () => {
   const { authUser } = useAuthStore();
   const { connectSocket, isMessagesLoading, fetchMessages } = useMessageStore();
 
@@ -40,4 +40,4 @@ const ChatPage = () => {
   );
 };
 
-export default ChatPage;
+export default ChatContainer;

@@ -1,10 +1,10 @@
 {
   "name": "chat-app",
   "version": "1.0.0",
-  "main": "backend/index.js",
+  "main": "backend/server.js",
   "scripts": {
-    "dev": "nodemon backend/index.js",
-    "start": "node backend/index.js",
+    "dev": "nodemon backend/server.js",
+    "start": "node backend/server.js",
     "build": "npm install --production=false && npm install --prefix frontend --production=false && npm run build --prefix frontend"
   },
   "keywords": [],

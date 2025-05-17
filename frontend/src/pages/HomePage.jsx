@@ -1,4 +1,4 @@
-import ChatContainer from "../components/ChatPage";
+import ChatContainer from "../components/ChatContainer";
 import Sidebar from "../components/Sidebar";
 
 function HomePage() {

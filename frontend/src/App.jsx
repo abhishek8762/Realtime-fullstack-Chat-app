@@ -5,15 +5,13 @@ import { useEffect } from "react";
 import LoginPage from "./pages/LoginPage";
 import HomePage from "./pages/HomePage";
 import SignUpPage from "./pages/SignUpPage";
-import SettingsPage from "./pages/SettingsPage";
 import ProfilePage from "./pages/ProfilePage";
 import Leaderboard from "./pages/Leaderboard";
 import { Loader } from "lucide-react"; // adds loading to page when user not logged and loading on refresh
 import { Toaster } from "react-hot-toast";
-import { useThemeStore } from "./store/useThemeStore";
+
 function App() {
   const { authUser, checkAuth, isCheckingAuth } = useAuthStore();
-  const { theme } = useThemeStore();
 
   useEffect(() => {
     checkAuth();
@@ -27,7 +25,7 @@ function App() {
     );
 
   return (
-    <div data-theme={theme}>
+    <div>
       <Navbar />
 
       <Routes>
@@ -43,7 +41,7 @@ function App() {
           path="/login"
           element={!authUser ? <LoginPage /> : <Navigate to="/" />}
         />
-        <Route path="/settings" element={<SettingsPage />} />
+
         <Route
           path="/profile"
           element={authUser ? <ProfilePage /> : <Navigate to="/login" />}

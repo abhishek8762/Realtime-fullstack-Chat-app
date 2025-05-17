@@ -22,7 +22,7 @@ export const MessageThread = () => {
 
   return (
     <div className="flex flex-col space-y-4 h-full overflow-y-auto p-4">
-      {messages?.map((msg, idx) => {
+      {messages?.map((msg) => {
         const isAuthUser = msg.senderId._id === authUser._id;
         const msgDate = moment(msg.createdAt).format("YYYY-MM-DD");
         const showDateSeparator = msgDate !== lastDate.current;
@@ -78,7 +78,7 @@ export const MessageThread = () => {
                 {msg.replyTo && (
                   <div className="text-xs italic opacity-80 mb-1 border-l-2 pl-2 border-gray-400">
                     <div className="font-semibold text-[14px] ">
-                      {toUpperCase(msg.senderId.fullName)}
+                      {msg.replyTo.senderId.fullName}
                     </div>
                     <div className="break-words text-[12px]">
                       {msg.replyTo.text}
@@ -95,8 +95,10 @@ export const MessageThread = () => {
                     }
                   )}
                 >
-                  <span>{toUpperCase(msg.senderId.fullName)}</span>
-                  <span className="text-[10px] opacity-80 ml-2">
+                  <span className=" text-[13px] font-bold">
+                    {toUpperCase(msg.senderId.fullName)}
+                  </span>
+                  <span className="text-[10px] opacity-80 ml-2 mt-1">
                     {moment(msg.createdAt).format("h:mm A")}
                   </span>
                 </div>
