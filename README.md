@@ -45,7 +45,27 @@ A full-stack, real-time group chat web app with emoji support, theming, online p
 
 ## 📸 Screenshots
 
-> *(Add images here if available: chat interface, leaderboard, profile page, etc.)*
+ 🔐 Login / Signup Page
+Showcases the authentication UI for new and returning users.Includes random avatar assignment on signup.
+![Unity Chat - Google Chrome 6_10_2025 6_50_06 PM](https://github.com/user-attachments/assets/fc057e3e-f211-4dd9-9d29-d5f428269a34)
+
+
+💬 Chat Interface
+Displays the main group chat area with real-time messages, reply previews, emoji support, and date dividers (e.g., Today, Yesterday).
+![Unity Chat - Google Chrome 6_10_2025 6_51_18 PM](https://github.com/user-attachments/assets/e14034b0-6e1c-43f6-a8b9-892a1508d5d7)
+
+
+🏆 Leaderboard Section
+Ranks users by total messages sent using MongoDB aggregation, with profile pictures and names shown.
+![Unity Chat - Google Chrome 6_10_2025 6_51_31 PM](https://github.com/user-attachments/assets/ca2e4cb2-13b8-4b96-a8f7-5990e378b475)
+
+
+👤 Profile Page
+Displays user information such as profile image, name, email, and "Member Since" date. Includes logout button to clear session
+![Unity Chat - Google Chrome 6_10_2025 6_51_43 PM](https://github.com/user-attachments/assets/a0cafb2e-1ada-4441-bad1-a6b2d4c85fa3)
+
+
+
 
 ---
 
