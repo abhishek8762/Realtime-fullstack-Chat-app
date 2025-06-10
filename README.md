@@ -61,20 +61,7 @@ Ranks users by total messages sent using MongoDB aggregation, with profile pictu
 
 
 👤 Profile Page
-Displays user information such as profile image, name, email, and "Member Since" date. Includes logout button to clear session
+Displays user information such as profile image, name, email, "Member Since" date and Account Status
 ![Unity Chat - Google Chrome 6_10_2025 6_51_43 PM](https://github.com/user-attachments/assets/a0cafb2e-1ada-4441-bad1-a6b2d4c85fa3)
 
 
-
-
----
-
-## 🧑‍💻 How to Run Locally
-
-### 🔧 Backend Setup
-
-```bash
-git clone https://github.com/your-username/unity-chat.git
-cd unity-chat/server
-npm install
-touch .env
